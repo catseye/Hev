@@ -35,12 +35,13 @@
 -- ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+module Hev where
 
 -----------------------------------------------------------------------
 -- ========================== Data types =========================== --
 -----------------------------------------------------------------------
 
-import Char
+import Data.Char
 
 --
 -- A data type giving the structure of the trees that Hev programs
@@ -72,8 +73,8 @@ data Unifier = UnifierBinding String Tree Unifier
 -- Ord type class here, but for now at least, I won't.
 --
 
-data Num a => PossiblyInfinite a = Finite a
-                                 | Infinity
+data PossiblyInfinite a = Finite a
+                        | Infinity
      deriving (Show, Read, Eq)
 
 isGreater i (Finite j) = i > j
