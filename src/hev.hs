@@ -6,7 +6,8 @@
 --
 
 --
--- Copyright (c)2005-2007 Cat's Eye Technologies.  All rights reserved.
+-- Copyright (c)2005-2012 Chris Pressey, Cat's Eye Technologies.
+-- All rights reserved.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions
