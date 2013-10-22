@@ -152,86 +152,81 @@ Hev Execution
 
 Test a very simple (and completely ground) program.
 
---
---           __(root)_X_53______
--- (rule    /                   \
---  list)  X 43               33 X   (state)
---        / \                   / \
--- (end) ,   \                 ,   ,
---            \
---             \
---              \
---            23 X  (rule)
---              / \
---             /   \
---            /     \
---           /       \
---          /         \
--- (head)  X 13        ,   (body)
---        / \
---       ,   ,
+    --           __(root)_X_53______
+    -- (rule    /                   \
+    --  list)  X 43               33 X   (state)
+    --        / \                   / \
+    -- (end) ,   \                 ,   ,
+    --            \
+    --             \
+    --              \
+    --            23 X  (rule)
+    --              / \
+    --             /   \
+    --            /     \
+    --           /       \
+    --          /         \
+    -- (head)  X 13        ,   (body)
+    --        / \
+    --       ,   ,
 
     | 43,13,23,53,33
     = TreeLeaf
 
 Test pattern-matching with a variable, causing a single rewrite.
 
---
---           __(root)_X_81______
--- (rule    /                   \
---  list)  X 49               73 X   (state)
---        / \                   / \
--- (end) ,   \              64 X   \
---            \               / \   \
---             \             ,   ,   X 17
---              \                   / \
---            36 X  (rule)         ,   X 4
---              / \                   / \
---             /   \                 ,   ,
---            /     \
---           /       \
---          /         \
--- (head)  X 25     16 X   (body)
---        / \         / \
---     9 X   +       +   ,
---      / \
---     ,   ,
+    --           __(root)_X_81______
+    -- (rule    /                   \
+    --  list)  X 49               73 X   (state)
+    --        / \                   / \
+    -- (end) ,   \              64 X   \
+    --            \               / \   \
+    --             \             ,   ,   X 17
+    --              \                   / \
+    --            36 X  (rule)         ,   X 4
+    --              / \                   / \
+    --             /   \                 ,   ,
+    --            /     \
+    --           /       \
+    --          /         \
+    -- (head)  X 25     16 X   (body)
+    --        / \         / \
+    --     9 X   +       +   ,
+    --      / \
+    --     ,   ,
 
---
--- One rewrite of state: + matches branch at 17, new state becomes:
---
---        X
---       / \
---   17 X   ,
---     / \
---    ,   X 4
---       / \
---      ,   ,
--- 
+After one rewrite of state: + matches branch at 17, new state becomes:
+
+    --        X
+    --       / \
+    --   17 X   ,
+    --     / \
+    --    ,   X 4
+    --       / \
+    --      ,   ,
 
     | 49,9,25+36+16,81,64,73,17,4
     = TreeBranch (TreeBranch TreeLeaf (TreeBranch TreeLeaf TreeLeaf)) TreeLeaf
 
 Test several rewrites of state.  The state is reduced to a single leaf.
 
---
---           __(root)_X_4_______
--- (rule    /                   \
---  list)  X 3                 2 X   (state)
---        / \                   / \
--- (end) ,   \                 /   \
---            \               /     \
---             \             X 1   1 X
---              \           / \     / \
---             2 X  (rule) ,   ,   ,   ,
---              / \
---             /   \
---            /     \
---           /       \
---          /         \
--- (head)  X 1         *   (body)
---        / \
---       *   *
+    --           __(root)_X_4_______
+    -- (rule    /                   \
+    --  list)  X 3                 2 X   (state)
+    --        / \                   / \
+    -- (end) ,   \                 /   \
+    --            \               /     \
+    --             \             X 1   1 X
+    --              \           / \     / \
+    --             2 X  (rule) ,   ,   ,   ,
+    --              / \
+    --             /   \
+    --            /     \
+    --           /       \
+    --          /         \
+    -- (head)  X 1         *   (body)
+    --        / \
+    --       *   *
 
     | 3*1*2*4,1,2,1
     = TreeLeaf
@@ -241,60 +236,58 @@ For this program, a bottom-up strategy produces a double branch,
 while a top-down strategy produces a single branch.
 (Work it out by hand if you doubt me!)
 
---
---           __(root)_X_99______
--- (rule    /                   \
---  list)  X 71                  \
---        / \                     \
--- (end) ,   \                     \
---            \                     \
---             \                     X 61 (state)
---              \                   / \
---            29 X  (rule)         /   \
---              / \               /     \
---             /   \          37 X       X 47
---            /     \           / \     / \
---           /       \         /   \   ,   ,
---          /         \     6 X   7 X
--- (head)  X 27 (body) *     / \   / \
---        / \               ,   , ,   ,
---       /   \
---    8 X     X 19
---     / \   / \
---    +   * ,   ,
+    --           __(root)_X_99______
+    -- (rule    /                   \
+    --  list)  X 71                  \
+    --        / \                     \
+    -- (end) ,   \                     \
+    --            \                     \
+    --             \                     X 61 (state)
+    --              \                   / \
+    --            29 X  (rule)         /   \
+    --              / \               /     \
+    --             /   \          37 X       X 47
+    --            /     \           / \     / \
+    --           /       \         /   \   ,   ,
+    --          /         \     6 X   7 X
+    -- (head)  X 27 (body) *     / \   / \
+    --        / \               ,   , ,   ,
+    --       /   \
+    --    8 X     X 19
+    --     / \   / \
+    --    +   * ,   ,
 
     | 71+8*27,19,29*99,6,37,7,61,47
     = TreeBranch TreeLeaf TreeLeaf
 
 Test multiple rules.
 
---
---                            _________(root)__X__188___________
---                           /                                  \
---             (rule list)  X 154                            111 X   (state)
---                         / \                                  / \
---                        /   \                                ,   X 91
---                       /     \                                  / \
---                      /       \                                ,   X 77
---                     /         \                                  / \
---                    /       137 X  (rule)                        ,   ,
---                   /           / \
---                  /           /   \
---                 /    (head) X 6   , (body)
---                /           / \
---               /         2 X   ,
---              /           / \
--- (rule node) X 103       ,   ,
---            / \
---     (end) ,   X (rule) 86
---              / \
---             /   \
---            /     \
---    (head) X 5   9 X (body)
---          / \     / \
---         ,   X 4 -   ,
---            / \
---           ,   -
+    --                            _________(root)__X__188___________
+    --                           /                                  \
+    --             (rule list)  X 154                            111 X   (state)
+    --                         / \                                  / \
+    --                        /   \                                ,   X 91
+    --                       /     \                                  / \
+    --                      /       \                                ,   X 77
+    --                     /         \                                  / \
+    --                    /       137 X  (rule)                        ,   ,
+    --                   /           / \
+    --                  /           /   \
+    --                 /    (head) X 6   , (body)
+    --                /           / \
+    --               /         2 X   ,
+    --              /           / \
+    -- (rule node) X 103       ,   ,
+    --            / \
+    --     (end) ,   X (rule) 86
+    --              / \
+    --             /   \
+    --            /     \
+    --    (head) X 5   9 X (body)
+    --          / \     / \
+    --         ,   X 4 -   ,
+    --            / \
+    --           ,   -
 
     | 103,5,4-86-9,154,2,6,137,188,111,91,77
     = TreeLeaf
@@ -305,23 +298,22 @@ you can run if you like:
     
     25,20*24,20,1*26,25
 
---
---           __(root)_X_26______
--- (rule    /                   \
---  list)  X 25                  X (state)
---        / \                   / \
--- (end) ,   \                 ,   ,
---            \
---             \
---              \
---            24 X  (rule)
---              / \
---             /   \
---            /     \
---           /       \
---          /         \
--- (head)  X   (body)  X 20
---        / \         / \
---       ,   *       ,   X 1
---                      / \
---                     ,   *
+    --           __(root)_X_26______
+    -- (rule    /                   \
+    --  list)  X 25                  X (state)
+    --        / \                   / \
+    -- (end) ,   \                 ,   ,
+    --            \
+    --             \
+    --              \
+    --            24 X  (rule)
+    --              / \
+    --             /   \
+    --            /     \
+    --           /       \
+    --          /         \
+    -- (head)  X   (body)  X 20
+    --        / \         / \
+    --       ,   *       ,   X 1
+    --                      / \
+    --                     ,   *
