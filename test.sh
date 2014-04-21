@@ -6,6 +6,7 @@ if [ x`which ghc` = x -a x`which runhugs` = x ]; then
 fi
 
 touch fixture.markdown
+touch Internals.markdown
 
 if [ ! x`which ghc` = x ]; then
     cat >>fixture.markdown <<EOF
@@ -34,6 +35,7 @@ if [ ! x`which ghc` = x ]; then
     -> "ghc src/Hev.hs -e "run (compile \"%(test-text)\")""
 
 EOF
+    cp tests/Internals.markdown .
 fi
 
 if [ ! x`which runhugs` = x ]; then
@@ -50,14 +52,6 @@ if [ ! x`which runhugs` = x ]; then
     -> shell command
     -> "runhugs src/Main.hs getbinding %(test-body-file)"
 
-    -> Functionality "Hev Matching" is implemented by
-    -> shell command
-    -> "runhugs src/Main.hs match %(test-body-file)"
-
-    -> Functionality "Hev Rewriting" is implemented by
-    -> shell command
-    -> "runhugs src/Main.hs rewrite %(test-body-file)"
-
     -> Functionality "Hev Execution" is implemented by
     -> shell command
     -> "runhugs src/Main.hs run %(test-body-file)"
@@ -65,5 +59,5 @@ if [ ! x`which runhugs` = x ]; then
 EOF
 fi
 
-falderal fixture.markdown tests/Hev.markdown
-rm -f fixture.markdown
+falderal fixture.markdown Internals.markdown tests/Hev.markdown
+rm -f fixture.markdown Internals.markdown
