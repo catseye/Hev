@@ -10,10 +10,6 @@ Hev Parsing
 
     -> Tests for functionality "Parse Hev Program"
 
-    -> Functionality "Parse Hev Program" is implemented by
-    -> shell command
-    -> "ghc src/hev.hs -e "parse \"%(test-text)\"""
-
     | 1+2*3
     = TreeBranch (TreeBranch (TreeBranch TreeLeaf (TreeVar "+")) (TreeVar "*")) TreeLeaf
 
@@ -40,10 +36,6 @@ Hev Compiling
 
     -> Tests for functionality "Compile Hev Program"
 
-    -> Functionality "Compile Hev Program" is implemented by
-    -> shell command
-    -> "ghc src/hev.hs -e "compile \"%(test-text)\"""
-
 Good.
 
     | 43,13,23,53,33
@@ -69,10 +61,6 @@ Hev Binding
 
     -> Tests for functionality "Hev Binding"
 
-    -> Functionality "Hev Binding" is implemented by
-    -> shell command
-    -> "ghc src/hev.hs -e "getBinding \"%(test-text)\" (UnifierBinding \"-\" TreeLeaf (UnifierBinding \"+\" (TreeBranch TreeLeaf TreeLeaf) UnifierNil))""
-
     | +
     = Just (TreeBranch TreeLeaf TreeLeaf)
 
@@ -86,10 +74,6 @@ Hev Matching
 ------------
 
     -> Tests for functionality "Hev Matching"
-
-    -> Functionality "Hev Matching" is implemented by
-    -> shell command
-    -> "ghc src/hev.hs -e "match %(test-text)""
 
     | (TreeLeaf) (TreeLeaf) UnifierNil
     = UnifierNil
@@ -122,10 +106,6 @@ Hev Rewriting
 
     -> Tests for functionality "Hev Rewriting"
 
-    -> Functionality "Hev Rewriting" is implemented by
-    -> shell command
-    -> "ghc src/hev.hs -e "rewrite %(test-text)""
-
     | (TreeBranch TreeLeaf TreeLeaf)
     | (TreeBranch TreeLeaf TreeLeaf)
     | TreeLeaf
@@ -145,10 +125,6 @@ Hev Execution
 -------------
 
     -> Tests for functionality "Hev Execution"
-
-    -> Functionality "Hev Execution" is implemented by
-    -> shell command
-    -> "ghc src/hev.hs -e "run (compile \"%(test-text)\")""
 
 Test a very simple (and completely ground) program.
 
