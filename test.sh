@@ -60,4 +60,6 @@ EOF
 fi
 
 falderal fixture.markdown Internals.markdown tests/Hev.markdown
+RESULT=$?
 rm -f fixture.markdown Internals.markdown
+exit $RESULT
