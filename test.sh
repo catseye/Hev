@@ -12,27 +12,27 @@ if [ ! x`which ghc` = x ]; then
     cat >>fixture.markdown <<EOF
     -> Functionality "Parse Hev Program" is implemented by
     -> shell command
-    -> "ghc src/Hev.hs -e "parse \"%(test-text)\"""
+    -> "ghc src/Hev.hs -e "parse \"%(test-body-text)\"""
 
     -> Functionality "Compile Hev Program" is implemented by
     -> shell command
-    -> "ghc src/Hev.hs -e "compile \"%(test-text)\"""
+    -> "ghc src/Hev.hs -e "compile \"%(test-body-text)\"""
 
     -> Functionality "Hev Binding" is implemented by
     -> shell command
-    -> "ghc src/Hev.hs -e "getBinding \"%(test-text)\" (UnifierBinding \"-\" TreeLeaf (UnifierBinding \"+\" (TreeBranch TreeLeaf TreeLeaf) UnifierNil))""
+    -> "ghc src/Hev.hs -e "getBinding \"%(test-body-text)\" (UnifierBinding \"-\" TreeLeaf (UnifierBinding \"+\" (TreeBranch TreeLeaf TreeLeaf) UnifierNil))""
 
     -> Functionality "Hev Matching" is implemented by
     -> shell command
-    -> "ghc src/Hev.hs -e "match %(test-text)""
+    -> "ghc src/Hev.hs -e "match %(test-body-text)""
 
     -> Functionality "Hev Rewriting" is implemented by
     -> shell command
-    -> "ghc src/Hev.hs -e "rewrite %(test-text)""
+    -> "ghc src/Hev.hs -e "rewrite %(test-body-text)""
 
     -> Functionality "Hev Execution" is implemented by
     -> shell command
-    -> "ghc src/Hev.hs -e "run (compile \"%(test-text)\")""
+    -> "ghc src/Hev.hs -e "run (compile \"%(test-body-text)\")""
 
 EOF
     cp tests/Internals.markdown .
