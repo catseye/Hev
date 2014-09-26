@@ -5,6 +5,22 @@ This test suite is written in the format of Falderal.  It is far from
 exhaustive, but provides a basic sanity check that the language we've
 implemented comes close to Hev.
 
+    -> Functionality "Parse Hev Program" is implemented by
+    -> shell command
+    -> "bin/hev parse %(test-body-file)"
+
+    -> Functionality "Compile Hev Program" is implemented by
+    -> shell command
+    -> "bin/hev compile %(test-body-file)"
+
+    -> Functionality "Hev Binding" is implemented by
+    -> shell command
+    -> "bin/hev getbinding %(test-body-file)"
+
+    -> Functionality "Hev Execution" is implemented by
+    -> shell command
+    -> "bin/hev run %(test-body-file)"
+
 Hev Parsing
 -----------
 
