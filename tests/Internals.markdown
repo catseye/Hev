@@ -1,6 +1,16 @@
 Test Suite for Hev Internals
 ============================
 
+These tests are only run under ghc, not Hugs.
+
+    -> Functionality "Hev Matching" is implemented by
+    -> shell command
+    -> "ghc src/Hev.hs -e "match %(test-body-text)""
+    
+    -> Functionality "Hev Rewriting" is implemented by
+    -> shell command
+    -> "ghc src/Hev.hs -e "rewrite %(test-body-text)""
+
 Hev Matching
 ------------
 
