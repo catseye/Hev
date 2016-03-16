@@ -487,3 +487,72 @@ run (TreeBranch patternTree stateTree) =
                 loop rest all state
             where
                 (matched, state') = rewrite state head body
+
+
+-----------------------------------------------------------------------
+-- ======================== Internal Tests ========================= --
+-----------------------------------------------------------------------
+
+
+matchTests =
+    [
+        (match
+          (TreeLeaf) (TreeLeaf) UnifierNil,
+          UnifierNil),
+        (match
+          (TreeLeaf) (TreeBranch TreeLeaf TreeLeaf) UnifierNil,
+          UnificationFailure),
+        (match
+          (TreeVar "+") (TreeBranch TreeLeaf TreeLeaf) UnifierNil,
+          UnifierBinding "+" (TreeBranch TreeLeaf TreeLeaf) UnifierNil),
+        (match
+          (TreeBranch (TreeVar "+") TreeLeaf)
+          (TreeBranch (TreeBranch TreeLeaf TreeLeaf) TreeLeaf)
+          UnifierNil, 
+          UnifierBinding "+" (TreeBranch TreeLeaf TreeLeaf) UnifierNil),
+        (match
+          (TreeBranch (TreeVar "+") TreeLeaf)
+          (TreeBranch TreeLeaf TreeLeaf)
+          UnifierNil,
+          UnifierBinding "+" TreeLeaf UnifierNil),
+        (match
+          (TreeBranch (TreeVar "+") TreeLeaf)
+          (TreeBranch TreeLeaf (TreeBranch TreeLeaf TreeLeaf))
+          UnifierNil,
+          UnificationFailure)
+    ]
+
+rewriteTests =
+    [
+        (rewrite
+          (TreeBranch TreeLeaf TreeLeaf)
+          (TreeBranch TreeLeaf TreeLeaf)
+          TreeLeaf,
+          (True, TreeLeaf)),
+        (rewrite
+          (TreeBranch TreeLeaf TreeLeaf)
+          (TreeBranch (TreeVar "+") TreeLeaf)
+          TreeLeaf,
+          (True, TreeLeaf)),
+        (rewrite
+          (TreeBranch (TreeBranch TreeLeaf TreeLeaf) TreeLeaf)
+          (TreeBranch (TreeVar "+") TreeLeaf)
+          (TreeVar "+"),
+          (True, TreeBranch TreeLeaf TreeLeaf))
+    ]
+
+test_r n [] = Nothing
+test_r n ((val, expected):ts) =
+    case test_r (n+1) ts of
+        Just error -> Just error
+        Nothing -> case val == expected of
+            True -> Nothing
+            False -> Just (n, val, expected)
+
+test =
+    case test_r 1 matchTests of
+        Nothing ->
+            case test_r 1 rewriteTests of
+                Nothing -> Nothing
+                Just (n, val, expected) -> Just $ show ("rewrite", n, val, expected)
+        Just (n, val, expected) -> Just $ show ("match", n, val, expected)
